@@ -1,0 +1,97 @@
+\chapter{Related Work}
+\section{Text Extraction Methods}
+Extracting textual information from historical sources is a longstanding challenge in the Digital Humanities. Existing approaches can be broadly grouped into four categories: (1) traditional OCR pipelines, (2) multimodal LLMs that bypass classical OCR, and (3) hybrid approaches that combine OCR with post-correction or structuring by LLMs, (3) commercial OCR solutions.
+
+\subsection{Traditional OCR Approaches}
+We define traditional OCR systems as dedicated models that take scanned images or PDFs as input and generate textual output. In contrast to multimodal LLMs, which support a broader range of image understanding tasks (e.g., captioning, translation, and structured extraction), traditional OCR engines are designed specifically for recognizing text.
+
+A large number of traditional OCR toolkits are available for direct use. Tesseract \parencite{DBLP:conf/icdar/Smith07}, Calamari OCR \parencite{DBLP:journals/dhq/WickRP20}, EasyOCR \parencite{easyocr}, Kraken \parencite{kraken_ocr}, and olmOCR \parencite{olmocrbench} provide open-source solutions. The research community also contributes to OCR-based extraction pipelines: for example, \textcite{loeffler2023digitize} propose a three-stage architecture (layout detection, OCR, and named entity recognition) for extracting structured information from historical plans, and \textcite{DBLP:conf/wacv/Fujitake24} present a decoder-only Transformer OCR model supported by a pre-trained language model.
+
+While these approaches are efficient and easy to deploy, they are often limited in their adaptability to specialized tasks and domains. The extracted text may suffer from noise and formatting inconsistencies, which restricts their direct usability for downstream structured information extraction.
+
+% \subsection{Traditional OCR Approaches}
+% We define traditional OCR approaches as dedicated models that takes image or PDF as input and generates text as output. Compared to multimodal LLMs that could serve a wide variety of image understanding tasks (caption generation, text extraction, machine translation), these traditional OCR models serve the only purpose of OCR.
+
+% There is a wide range of traditional OCR toolkits available for direct use. Tesseract\parencite{DBLP:conf/icdar/Smith07}, Calamari OCR \parencite{DBLP:journals/dhq/WickRP20}, EasyOCR \parencite{easyocr}, kraken\parencite{kraken_ocr}, olmOCR\parencite{olmocrbench} provide open-source free solutions for OCR tasks. The research community also contributes to traditional OCR methods. 
+% \cite{loeffler2023digitize} proposes a three-model architecture (layout model, OCR model and Named Entity Recognition model) to extract information from plans. \cite{DBLP:conf/wacv/Fujitake24} presented a decoder-only Transformer model with the help of a generative language model that is pre-trained on a large corpus. 
+
+% These methods, although free and efficient, have limited options to customize for different tasks. The outputs are usually noisy and unstructured. Cannot be direcly used.
+\subsection{OCR-Free Multimodal LLMs}
+Multimodal LLMs can take multiple input modalities (such as images and text) and generate textual outputs based on a prompt. With appropriate prompting, these models can be used for OCR tasks. \textcite{DBLP:journals/corr/abs-2501-11623} demonstrate that multimodal LLMs outperform traditional OCR and HTR approaches on metrics such as CER (Character Error Rate) and BLEU. Similarly, \textcite{nunes-etal-2025-benchmarking} compare GPT-4o with conventional models on table extraction and show that, while classical methods achieve higher performance in identifying table structure, GPT-4o substantially improves the accuracy of cell-level text extraction.
+
+The language understanding capabilities of multimodal LLMs allow task-specific prompting and enable the generation of clean, structured results directly from the image input. However, despite their effectiveness, multimodal LLMs are susceptible to generating non-factual outputs, a phenomenon known as hallucination \parencite{DBLP:journals/corr/abs-2404-18930, DBLP:journals/corr/abs-2410-12787}.
+
+
+% \subsection{OCR-Free Multimodal LLMs}
+% Multimodal LLMs can take inputs of various types (for example, text and image) and generate text based on the input prompt (also text). Given proper prompts, these models can also perform OCR tasks. \cite{DBLP:journals/corr/abs-2501-11623} demonstrate that LLMs outperform the conventional OCR/HTR methods on metrics including CER (Character Error Rate) and BLEU. \cite{nunes-etal-2025-benchmarking} tested GPT-4o and traditional models on table extraction. It shows that while traditional models have better performance on extracting the table structural layout, GPT-4o achieved  far better results in terms of text cell content. 
+
+% Thanks to the strong language abilities in multimodal LLM, we could give customized prompts based on specific task and get clean, structured results in one go.
+% However, in spite of the effectiveness of multimodal LLM in OCR tasks, it has intrinsic risks to generate non-factual content, a phenomenon called hallucination \parencite{DBLP:journals/corr/abs-2404-18930, DBLP:journals/corr/abs-2410-12787}.
+
+\subsection{Hybrid OCR + LLM Post-Correction}
+With the rapid development of LLMs, a natural strategy is to combine traditional OCR for efficient raw text extraction with LLMs for post-processing and structuring. In this hybrid setup, OCR produces the initial transcription and the LLM is responsible for correcting errors and formatting the text into a clean and structured form.
+
+\textcite{10.1145/3453476} provide a comprehensive survey of post-OCR processing methods, typical system pipelines, and available datasets. \textcite{DBLP:journals/corr/abs-2502-01205} show that LLM-based post-correction can substantially reduce CER on English texts, though the improvement does not generalize equally to Finnish. Similarly, \textcite{DBLP:journals/corr/abs-2507-19092} compare hybrid Tesseract + ChatGPT-4 with olmOCR on digitizing Slovenian folkloristic materials, and report that the hybrid approach achieves better accuracy on two out of three datasets. Their study also notes that, while LLMs improve readability and formatting, they must be applied carefully to avoid distorting historically or linguistically meaningful content, and that input scan quality remains a crucial factor for performance.
+
+\textcite{thomas-etal-2024-leveraging} apply Llama~2 to post-OCR correction of English newspapers and observe improved CER reduction compared to the sequence-to-sequence model BART \parencite{lewis-etal-2020-bart}. \textcite{DBLP:conf/aaai/DoTVK25} perform post-correction for Vietnamese OCR and demonstrate that contextual references can be used to reduce hallucination. \textcite{DBLP:journals/corr/abs-2408-17428} further show that some LLMs significantly reduce error rates and that providing socio-cultural context in prompts can improve performance. \textcite{boros-etal-2024-post} evaluate fourteen foundation models on several post-OCR correction benchmarks and, however, find that LLMs generally struggle when correcting historical transcription errors.
+
+\subsection{Commercial OCR Solutions}
+In addition to open-source and research-based toolkits, commercial OCR systems provide ready-to-use, no-code solutions. Examples include ABBYY FineReader \parencite{abbyy} and Adobe Acrobat OCR \parencite{adobe}, as well as cloud-based services such as Azure Cognitive Services \parencite{azureocr}, Google Cloud Vision \parencite{googlevisionocr}, and Amazon Textract \parencite{textract}. These tools are mature and practical to deploy, but the underlying models are proprietary and undocumented, so we do not further investigate them in this work.
+
+
+\section{Human–LLM Hybrid Annotation}
+
+With the rapid advancements in the text understanding capabilities of modern LLMs, using LLMs for data annotation has become an increasingly popular approach. \textcite{DBLP:conf/acl/DingQLCLJB23} show that GPT-3 can annotate data for a range of tasks at substantially lower cost than human annotation, although their results also indicate that annotation quality deteriorates for complex tasks involving subtle distinctions, domain-specific knowledge, or ambiguous labels.
+
+Several studies have adopted a hybrid paradigm that combines LLM annotation with human verification. \textcite{DBLP:conf/emnlp/WangLXZZ21} use GPT-3 as a low-cost labeler—reducing annotation expenses by 50--96\%—and improve annotation accuracy by having humans re-label items with the lowest confidence scores. A similar strategy is used by \textcite{DBLP:conf/eacl/KimMCRZ24}, where  human only reevaluate the low-confidence cases. \textcite{DBLP:conf/chi/Wang0RMM24} deploy two LLMs, one for labeling and the other for generating confidence score. However, \textcite{DBLP:journals/corr/abs-2504-11101} caution that LLM-as-judge evaluation is not always reliable, casting doubt on confidence-based label quality control.
+
+\textcite{DBLP:conf/icwsm/PangakisW25} further integrate human-in-the-loop refinement by manually analyzing LLM labeling errors and incorporating misclassified examples back into the prompt. Their experiments reveal that LLM annotators tend to achieve high recall but comparatively low precision. Moreover, with sufficiently large training sets, supervised encoder-based models outperform GPT-4, whereas in low-resource settings GPT-4 yields superior performance.
+
+
+The integration of LLM predictions into human workflows also presents risks. \textcite{DBLP:conf/acl/SchroederRK25} find that providing annotators with LLM-generated labels increases their confidence but does not accelerate annotation, and introduces anchoring effects where annotators are influenced by the LLM outcome. This aligns with the concern of automation bias discussed in \textcite{DBLP:journals/corr/abs-2503-06778}.
+
+Model capability and language coverage are additional considerations. \textcite{pmlr-v239-mohta23a} show that Vicuna-13B v1.5 performs significantly worse on non-English language data, underscoring the importance of considering language adaptability for French annotation. For imbalanced classification tasks, \textcite{chen2025human} propose iteratively refining prompts based on recall for rare classes to improve performance.
+
+
+% \subsection{Hybrid OCR + LLM Post-Correction}
+% As the capability of LLM grows rapidly, it becomes a natural solution to use traditional OCR for efficient raw text extraction and LLM to correct the errors in the raw text, to get clean and structured output.
+
+% \cite{10.1145/3453476} conducts a comprehensive survey on post-OCR processing approaches, typical pipeline and available datasets.
+
+% \cite{DBLP:journals/corr/abs-2502-01205} shows that LLM did well in reducing character error rates (CER) in English, but not in Finnish.
+
+% \cite{DBLP:journals/corr/abs-2507-19092} compares Tesseract +  ChatGPT-4 and olmOCR for digitization of Slovenian folkloristic materials on 3 datasets, and the hybrid approach reaches better results on 2 datasets. It also mentioned while LLMs significantly enhance formatting and readability, they must be applied with caution to avoid distorting historically and linguistically meaningful content. And input scan quality is crucial for final accuracy. 
+
+% \cite{boros-etal-2024-post} evaluate fourteen foundation language models against various post-correction benchmarks, showing that , however, LLMs are not good at correcting transcriptions of historical documents.
+
+% \cite{thomas-etal-2024-leveraging} performs post-OCR correction task on a English newspaper dataset with Llama2, which shows significant higher character error rate reduction than BART \parencite{lewis-etal-2020-bart}, a sequence-to-sequence langauge model.
+
+% \cite{DBLP:conf/aaai/DoTVK25} performs LLM post-OCR correction on a Vietnamese dataset. Particularly, this paper provides strong context from the reference books to constrain the hallucination of LLM.
+
+% \cite{DBLP:journals/corr/abs-2408-17428} demonstrates that some LLMs can significantly reduce error rates, and providing socio-cultural context in the prompts improves performance.
+
+% \subsection{Commercial OCR Solutions}
+% Besides solutions from open-source communities and researchers, commercial OCR provides out-of-box, no-code solutions. For example, \cite{abbyy}, \cite{adobe} has built-in OCR functions, and  \cite{azureocr}, \cite{googlevisionocr}, \cite{textract} provide cloud-based OCR services. However, these commercial OCR tools do not provide technical details about their OCR model, and we do not conduct further research into them.
+
+
+% \section{Human-LLM Hybrid Annotation}
+
+% With the strong text understanding capability of modern LLMs, integrating LLM for data annotation becomes a popular choice. 
+% \cite{DBLP:conf/acl/DingQLCLJB23} shows GPT-
+% 3 has the potential to annotate data for different
+% tasks at a relatively lower cost. In more complex annotation tasks (with subtle distinctions, domain specificity, or ambiguous labels), GPT-3’s annotation quality drops versus human annotators.
+
+% \cite{DBLP:conf/emnlp/WangLXZZ21} uses GPT-3 as a low-cost data labeler, which costs 50\% to 96\% less than using labels from humans. It also lets humans re-annotate data labeled by GPT-3
+% with the lowest confidence scores, which improves the quality of labels. Similar method is adapted by \cite{DBLP:conf/eacl/KimMCRZ24}, where datapoints with low confidence scores and with risky domains are reevluated by human. 
+% \cite{DBLP:conf/chi/Wang0RMM24} uses two LLMs, one for labeling the data, another to flag the datapoints with low confidence score. However, \cite{DBLP:journals/corr/abs-2504-11101} points out that LLM-as-judge evaluation is not always reliable, which puts doubt on using the confidence score generated by LLM to identify risky datapoints.
+
+% \cite{DBLP:conf/icwsm/PangakisW25} points out the importance to put human in the loop when using LLM for annotation. It refines the prompts by reviewing patterns in errors made by the LLM and by incorporating examples from incorrect LLM classifications. A high recall, low precision phenomenon is observed in LLM annotations. With adequate training data, supervised encoder-only LLM classifiers surpass GPT-4 performance, while with minimal training samples, GPT-4 does better.
+
+
+% \cite{DBLP:conf/acl/SchroederRK25} shows that providing the annotators with LLM labels, while increases self-reported confidence, does not speed up the annotation process. Particularly, the annotators are strongly influenced by the LLM label, signifying a risk of anchoring bias in this LLM-aided labelling paradigm. This risk is also mentioned in \cite{DBLP:journals/corr/abs-2503-06778} as "automation bias".
+
+
+% \cite{pmlr-v239-mohta23a} points out Vicuna-13b v1.5 model’s performance significantly diminishes when handling languages other than English, since the model is pretrained mainly on English data. It reminds us to pay attention to the adaptability of LLM on our French information extraction task.
+
+
+% For annotation task with unbalanced classes, to improve recall, \cite{chen2025human} proposes to iteratively optimize the prompt based on the recall on rare classes.

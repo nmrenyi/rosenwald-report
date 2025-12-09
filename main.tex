@@ -1,0 +1,107 @@
+\documentclass[11pt,titlepage]{report}
+\usepackage{Preamble}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{tikz}
+\usetikzlibrary{fit, backgrounds}
+\usetikzlibrary{shapes, arrows.meta, positioning, shadows, fit, backgrounds, calc}
+\usepackage{graphicx}
+\usepackage{subcaption}
+
+
+% \usepackage[margin=0.5in]{geometry} % Give the page more room
+
+% --- DEFINE COLORS (Required because your styles use custom names) ---
+\definecolor{effBlue}{RGB}{225, 240, 255}
+\definecolor{effBorder}{RGB}{100, 149, 237}
+\definecolor{qcRed}{RGB}{255, 230, 230}
+\definecolor{qcBorder}{RGB}{205, 92, 92}
+\definecolor{goldenGreen}{RGB}{85, 107, 47}
+\definecolor{conflictRed}{RGB}{178, 34, 34}
+
+\usepackage{float} % optional, but helps place figures precisely
+
+\begin{document}
+
+\begin{titlepage}
+    \newgeometry{margin=3cm}
+    \centering
+        % \includegraphics[width=0.5\linewidth]{epfl.png}\\[0.25cm] % University Logo
+    % \textsc{\LARGE École Polytechnique Fédérale de Lausanne}\\ \vspace{\fill}
+    % --- This is the fix: Add vertical space at the top ---
+    \vspace*{\fill}
+    
+    % Titre principal
+    \textbf{\textsc{\fontsize{25}{30}\selectfont LLM-based Structured Data Extraction from the Rosenwald Guides: Methods and Hybrid Evaluation}}\\[0.8cm]
+    
+    % Sous-titre
+    \textsc{\Large Quantifying the invisible: women doctors in the Rosenwald guides (1887-1906)}\\ 
+    
+    % --- Vertical space between Title and Footer info ---
+    \vspace{\fill}	
+
+    \textsc{\LARGE École Polytechnique Fédérale de Lausanne}\\[0.4cm]
+
+    \textsc{\LARGE Semester Project}\\[0.4cm]
+    \rule{\linewidth}{0.2 mm} \\[0.5 cm]
+    
+    % Auteur
+    {\Large Ren Yi} \\[1cm] 
+    
+    % Superviseurs
+    \textbf{Superviseuse et superviseurs :}\\
+    Mikhaël Moreau\\
+    Dre Amélie Puche\\
+    Pr. Jérôme Baudry\\[1cm]
+    
+    \today
+    
+    % Optional: Add a small space at the very bottom if it looks too low
+    % \vspace*{1cm} 
+\end{titlepage}
+\restoregeometry
+
+\thispagestyle{numberonly}
+\begin{summary}
+\section*{Abstract}
+
+Not started yet
+% You can choose colours in the preamble
+
+% \lipsum[1]
+\end{summary}
+
+\begin{invsummary}
+
+Declaration: ChatGPT is used in this paper to improve the language.
+
+% Here's another environment for really highlighting bits of information
+% \lipsum[2]
+\end{invsummary}
+
+% \begin{fquote}[One or two arguments][Be sure not to leave a space before the text]Here's an environment for fancy quotations. \lipsum[3]
+% \end{fquote}
+
+
+
+\subfile{1-Introduction}
+
+
+\subfile{2-related-work}
+
+
+\subfile{3-dataset}
+
+
+\subfile{4-double-triangular}
+\subfile{4.5-benchmark}
+\subfile{5-extraction-pipeline}
+
+
+\subfile{6-Conclusion}
+
+\clearpage
+\pagestyle{numberonly}
+\printbibliography
+
+\end{document}

@@ -1,0 +1,132 @@
+
+\begin{figure}[h]
+    \centering
+    \makebox[\textwidth][c]{
+    
+        \begin{tikzpicture}[
+            node distance=1.0cm and 0.5cm,
+            font=\sffamily,
+            % --- STYLES ---
+            data/.style={
+                rectangle, rounded corners=3pt, draw=gray!80, fill=white, 
+                thick, minimum height=0.8cm, minimum width=2cm, align=center, drop shadow, font=\footnotesize
+            },
+            model/.style={
+                rectangle, draw=effBorder, fill=effBlue, thick, 
+                minimum size=1cm, align=center, font=\footnotesize
+            },
+            human/.style={
+                ellipse, draw=qcBorder, fill=qcRed, thick, 
+                minimum height=0.8cm, minimum width=1.5cm, align=center, drop shadow, font=\scriptsize
+            },
+            expert/.style={
+                ellipse, draw=purple!80, fill=purple!10, thick, font=\bfseries\scriptsize,
+                minimum height=1cm, minimum width=2cm, align=center, drop shadow
+            },
+            decision/.style={
+                diamond, aspect=1.5, draw=orange!80, fill=orange!10, thick, 
+                align=center, font=\tiny, inner sep=1pt
+            },
+            golden/.style={
+                rectangle, rounded corners=3pt,       
+                draw=goldenGreen, fill=yellow!20,     
+                thick, double, double distance=1.5pt, 
+                minimum height=1.2cm, minimum width=2.5cm, 
+                align=center, font=\bfseries\small, drop shadow
+            },
+            systemGroup/.style={                                  
+                draw=gray!40, dashed, fill=gray!5, rounded corners=5pt, 
+                inner sep=0.4cm, thick                                    
+            },
+            % --- NEW STYLE FOR LAYER 2 BOX ---
+            layerGroup/.style={                                  
+                draw=blue!40, dashed, fill=blue!5, rounded corners=5pt, 
+                inner sep=0.4cm, thick                                    
+            },    
+            % Arrows
+            flow/.style={->, >=LaTeX, thick, draw=gray!70},
+            autoPath/.style={->, >=LaTeX, very thick, draw=goldenGreen},
+            conflictPath/.style={->, >=LaTeX, thick, draw=conflictRed, dashed, font=\tiny\bfseries},
+            expertPath/.style={->, >=LaTeX, very thick, draw=purple!80}
+        ]
+
+        % ==================== THE BASE (INPUT) ====================
+        \node[data, fill=gray!10] (raw) at (0,0) {\textbf{Raw Input Data}\\(Images)};
+
+        % ==================== LAYER 1: EFFICIENCY TRIANGLES ====================
+
+        % --- System 1 (Left Base) ---
+        \node[decision, above left=3cm and 1.5cm of raw, minimum width=2.5cm, minimum height=1.5cm, font=\small] (dec1) {Match?\\$ML_{1a} == ML_{2a}$};
+        \node[model, below left=0.8cm and 0.2cm of dec1] (m1a) {$M_{1a}$ \\ Claude};
+        \node[model, below right=0.8cm and 0.2cm of dec1] (m2a) {$M_{2a}$ \\ Qwen};
+        \node[human, left=1cm of dec1] (jury1) {Human\\Jury $H_a$};
+        \node[data, above=1cm of dec1] (out1) {Label $L_a$};
+
+        % --- System 2 (Right Base) ---
+        \node[decision, above right=3cm and 1.5cm of raw, font=\small] (dec2) {Match?\\$ML_{1b} == ML_{2b}$};
+        \node[model, below left=0.8cm and 0.2cm of dec2] (m1b) {$M_{1b}$\\Llama};
+        \node[model, below right=0.8cm and 0.2cm of dec2] (m2b) {$M_{2b}$\\Grok};
+        \node[human, right=1cm of dec2] (jury2) {Human\\Jury $H_b$};
+        \node[data, above=1cm of dec2] (out2) {Label $L_b$};
+
+        % ==================== CONNECTIONS LAYER 1 ====================
+        \draw[flow] (raw.north) -- ++(0,0.6) coordinate (split);
+
+        \draw[flow] (split) -| (m1a.south);
+        \draw[flow] (split) -| (m2a.south);
+        \draw[flow] (split) -| (m1b.south);
+        \draw[flow] (split) -| (m2b.south);
+
+        \draw[flow] (m1a.north) -- (dec1.south); \draw[flow] (m2a.north) -- (dec1.south);
+        \draw[flow] (m1b.north) -- (dec2.south); \draw[flow] (m2b.north) -- (dec2.south);
+
+        \draw[autoPath] (dec1.north) -- node[right, font=\tiny, text=goldenGreen] {Yes} (out1.south);
+        \draw[autoPath] (dec2.north) -- node[left, font=\tiny, text=goldenGreen] {Yes} (out2.south);
+
+        \draw[conflictPath] (dec1.west) -- node[above, text=conflictRed] {No} (jury1.east);
+        \draw[flow] (jury1.north) |- ($(out1.south)+(-0.5,-0.2)$) -- ($(out1.south)+(-0.2,0)$);
+
+        \draw[conflictPath] (dec2.east) -- node[above, text=conflictRed] {No} (jury2.west);
+        \draw[flow] (jury2.north) |- ($(out2.south)+(0.5,-0.2)$) -- ($(out2.south)+(0.2,0)$);
+
+
+        % ==================== LAYER 2: QUALITY TRIANGLE ====================
+        \coordinate (centerPoint) at (0, 5); 
+        \node[decision, aspect=2, font=\small, above=3cm of raw] (metaDec) at (0, 5) {\textbf{Golden Consensus?}\\$L_a == L_b$};
+
+        \node[expert, right=2cm of metaDec] (expert) {FINAL EXPERT\\($R$)};
+
+        \node[golden, above=1.5cm of metaDec] (final) {GOLDEN\\TRUTH};
+
+        \draw[flow] (out1.north) -- (metaDec.south);
+        \draw[flow] (out2.north) -- (metaDec.south);
+
+        \draw[autoPath, line width=2pt] (metaDec.north) -- node[right, font=\bfseries, text=goldenGreen] {Match} (final.south);
+        \draw[conflictPath] (metaDec.east) -- node[above, text=conflictRed] {Mismatch} (expert.west);
+        \draw[expertPath] (expert.north) |- (final.east);
+
+        % ==================== NEW: SYSTEM GROUPING BOXES ====================
+        \begin{scope}[on background layer]
+            
+            % Box for System A (Left)
+            \node[systemGroup, fit=(out1) (jury1) (m1a) (m2a) (dec1)] (sysA) {};
+            \node[below, font=\bfseries\color{gray}] at (sysA.south west) {SYSTEM A};
+
+            % Box for System B (Right)
+            \node[systemGroup, fit=(out2) (jury2) (m1b) (m2b) (dec2)] (sysB) {};
+            \node[below , font=\bfseries\color{gray}] at (sysB.south east) {SYSTEM B};
+            
+            % --- NEW BOX: QUALITY TRIANGLE (LAYER 2) ---
+            % We create a coordinate to the left to balance the Expert on the right
+            % so the box remains centered nicely.
+            \coordinate (mirrorLeft) at ($(metaDec.west) + (-2.5,0)$);
+            
+            \node[layerGroup, fit=(metaDec) (final) (expert) (mirrorLeft)] (layer2) {};
+            \node[above right, font=\bfseries\color{blue!60!gray}] at (layer2.north west) {QUALITY CONSENSUS};
+
+        \end{scope}
+        \end{tikzpicture}
+    } 
+    \caption{Overview of the Double Triangle Annotation Framework with Layer 2 Highlighted.}
+    \label{fig:double_triangle}
+\end{figure}

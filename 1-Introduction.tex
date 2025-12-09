@@ -1,0 +1,44 @@
+\chapter{Introduction}
+\section{Motivation}
+
+Historical archives contain large amounts of information that is critical for research in the Digital Humanities. However, many sources exist only as scanned images, and traditional OCR systems often produce noisy and inconsistent text. This lack of machine-readable structure makes large-scale analysis difficult and limits historians’ ability to work with archival data efficiently.
+
+\section{Project Context}
+This semester project was proposed by the FNS MEDIF project team (SNSF grant no. 215100 \footnote{https://data.snf.ch/grants/grant/215100}), which investigates the history of the first women physicians in French-speaking Switzerland and France. The work contributes to populating the MEDIF database, a resource dedicated to the first female doctors active in the region during the Belle Époque.
+
+This initiative is necessary precisely because early women physicians have been largely rendered invisible in the history of medicine; the project seeks to bridge this knowledge gap and enable robust quantitative analysis. Supervised by Mikhaël Moreau, an SNSF PhD candidate whose thesis focuses on the professional strategies developed by these pioneers, the database serves a triple objective: raising the visibility of these women, documenting their history, and analyzing their professional trajectories.
+
+Beyond its methodological value in annotating digitized sources for the humanities and social sciences, the work has a concrete objective rooted in the MEDIF project: to identify women who practiced medicine, quantify them—establishing their proportion within the total medical workforce in France at the time—and map their professional careers.
+
+
+% TODO: any examples of research on noisy dataset
+
+\section{Dataset}
+The Rosenwald Guides\footnote{https://gallica.bnf.fr/ark:/12148/cb344120051/date} present the same challenge. They are a series of medical directories listing doctors across France and its colonies from 1887 to 1949, and constitute a key source for identifying doctors, documenting their areas of practice and specializations, and mapping their professional trajectories. Although OCR transcriptions are available, the results remain noisy text without structured formatting, which makes systematic querying and data extraction difficult.
+
+% TODO: add link to the dataset
+
+\section{Challenges}
+
+Recent progress in large language models provides a promising approach for extracting structured information from historical documents. In particular, multimodal LLMs, with proper prompts, can take scanned images as input and produce structured output. However, their reliability remains uncertain: hallucination can introduce information that did not exist in the original source.
+
+A further challenge concerns evaluation. Historical documents rarely come with ground-truth annotations, so assessing extraction accuracy requires additional labeling effort. Traditional human annotation and inter-annotator agreement procedures demand substantial expert labor. Although LLMs can assist with benchmark creation, their outputs must themselves be validated before they can be considered reliable.
+
+
+\section{Contributions}
+In this paper, we introduce a hybrid pipeline for extracting structured information from the Rosenwald Guides and evaluate it using a new benchmark and annotation paradigm.
+
+Our contributions are threefold:
+\begin{enumerate}
+    \item \textbf{Annotation methodology.} We propose a double-triangular annotation framework that combines LLMs with human labeling for scalable and trustworthy annotations.
+    \item \textbf{Benchmark construction.} We develop a benchmark dataset on the Rosenwald Guides to support the evaluation of structured information extraction from historical documents.
+    \item \textbf{Method evaluation.} We build and evaluate a hybrid OCR+LLM extraction pipeline and compare it against existing approaches on our benchmark.
+\end{enumerate}
+% \begin{wrapfigure}{r}{5cm} %here, bottom of page, top of page, empty page in order of preference
+%     \centering
+%     \includegraphics[width=5cm]{Images/epfl.png}
+%     \caption{Check out these nice centered captions though}
+%     \label{fig:my_label}
+% \end{wrapfigure}
+
+% Check out referencing, use \texttt{parencite} for authoryear style \parencite{reflabel}, or just \texttt{cite} if numeric style set in preamble. \lipsum[4] 
