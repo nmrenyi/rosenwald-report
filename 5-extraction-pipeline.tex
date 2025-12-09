@@ -1,1 +1,16 @@
 \chapter{Extraction Pipeline}
+\section{Motivation and Objective}
+Extracting accurate, structured information from historical documents is challenging due to scanning noise and complex page layouts (e.g., fading ink, bleed-through, skew, and dense multi-column formatting). Multimodal LLMs can, in principle, produce clean, semantically corrected structured output directly from images; however, they also introduce the risk of hallucination and over-correction. Conversely, traditional OCR is designed for faithful character-level transcription, but its performance often degrades when glyphs are unclear or layouts are intricate, which can lead to errors such as merging or misassigning information across adjacent entries (e.g., mixing details from two doctors).
+
+To combine the strengths of both approaches, we adopt a two-stage pipeline: we first apply traditional OCR to obtain a raw transcription, and then use a text-only LLM for post-correction and schema-conformant structuring. This design leverages the LLM's semantic normalization and formatting capabilities while using the OCR output as an explicit textual anchor to mitigate hallucination and constrain unjustified edits.
+\section{Method: traditional OCR + text LLM}
+
+
+
+\section{Evaluation}
+
+
+\section{Extraction}
+
+
+\section{Limitations and discussion}
