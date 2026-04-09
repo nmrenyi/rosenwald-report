@@ -5,12 +5,24 @@
 \usepackage{tikz}
 \usetikzlibrary{fit, backgrounds}
 \usetikzlibrary{shapes, arrows.meta, positioning, shadows, fit, backgrounds, calc}
+\usetikzlibrary{shapes.geometric, arrows.meta, positioning, shadows, calc}
 \usepackage{graphicx}
 \usepackage{subcaption}
-
-
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{makecell}
+\usepackage{tabularx}
+\usepackage{xcolor}
+\usepackage{setspace}
+\usepackage{array}
+\usepackage{pifont}
+\newcommand{\malteseCross}{\ding{64}} % ✠
+\newcommand{\sixStar}{\ding{73}}      % ✶
+\usepackage[table,xcdraw]{xcolor}
+\newcommand{\diff}[1]{\textcolor{red}{\textbf{#1}}}
 % \usepackage[margin=0.5in]{geometry} % Give the page more room
-
+\usepackage{xurl} % improves URL line breaking
+% \usepackage[hidelinks]{hyperref}
 % --- DEFINE COLORS (Required because your styles use custom names) ---
 \definecolor{effBlue}{RGB}{225, 240, 255}
 \definecolor{effBorder}{RGB}{100, 149, 237}
@@ -20,6 +32,11 @@
 \definecolor{conflictRed}{RGB}{178, 34, 34}
 
 \usepackage{float} % optional, but helps place figures precisely
+
+% --- Make "et al." italic in biblatex ---
+\DefineBibliographyStrings{english}{
+  andothers = {\mkbibemph{et\addabbrvspace al\adddot}}
+}
 
 \begin{document}
 
@@ -32,10 +49,10 @@
     \vspace*{\fill}
     
     % Titre principal
-    \textbf{\textsc{\fontsize{25}{30}\selectfont LLM-based Structured Data Extraction from the Rosenwald Guides: Methods and Hybrid Evaluation}}\\[0.8cm]
+    \textbf{\textsc{\fontsize{25}{30}\selectfont Quantifying the invisible: women doctors in the Rosenwald guides (1887-1906)}}\\[0.8cm]
     
     % Sous-titre
-    \textsc{\Large Quantifying the invisible: women doctors in the Rosenwald guides (1887-1906)}\\ 
+    \textsc{\Large LLM-based Structured Data Extraction from the Rosenwald Guides: Methods and Hybrid Evaluation}\\ 
     
     % --- Vertical space between Title and Footer info ---
     \vspace{\fill}	
@@ -64,11 +81,11 @@
 \thispagestyle{numberonly}
 \begin{summary}
 \section*{Abstract}
+Historical medical directories are important sources for studying professional trajectories and social change, but their large scale and noisy OCR outputs make systematic analysis difficult. This report compares different pipelines to transform scanned pages of the \textit{Rosenwald Guides} into structured data, supporting the MEDIF project goal of quantifying the presence of women doctors.
+\\
 
-Not started yet
-% You can choose colours in the preamble
+We first curate a focused corpus from the \textit{Rosenwald Guides} (pilot scope: 20 editions, 1887--1906), identifying and extracting 4{,}116 relevant pages from sections listing physicians and related professions. We then propose a \textit{Double Triangle} human--model workflow to create high-precision gold labels under limited annotation budgets: two independent multimodal LLM systems generate initial structured outputs, agreement is used to auto-accept easy cases, and disagreements are routed to a lightweight human review process. Applying this approach yields a benchmark with approximately 60 columns, where model agreement exceeds 85\%; in the final review stage only 991 fields require manual correction out of 13{,}595 total fields (7.2\%). Finally, we evaluate extraction strategies across different input modalities and models, and analyse the extraction performance from both quantitative and qualitative perspectives. Particularly, we analyse the extraction quality of female doctors and conduct initial analysis on the distribution of female doctors, based on our extraction results.
 
-% \lipsum[1]
 \end{summary}
 
 \begin{invsummary}
@@ -96,7 +113,7 @@ Declaration: ChatGPT is used in this paper to improve the language.
 \subfile{4-double-triangular}
 \subfile{4.5-benchmark}
 \subfile{5-extraction-pipeline}
-
+\subfile{5.5-women-doctors}
 
 \subfile{6-Conclusion}
 

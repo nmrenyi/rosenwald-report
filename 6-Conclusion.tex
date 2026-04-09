@@ -1,1 +1,25 @@
+
 \chapter{Conclusion}
+\label{chap:conclusion}
+
+This report explored a practical workflow for turning scanned pages of the \textit{Rosenwald Guides} into structured data, motivated by the MEDIF project’s interest in making women doctors more visible in historical sources. Working with a pilot corpus (20 editions, 1887--1906; 4{,}116 pages), we focused on two main needs: creating reliable gold labels under limited resources, and assessing how well current OCR/MLLM-based extraction can support structured transcription.
+
+We proposed the \textit{Double Triangle} workflow, where two independent multimodal systems produce initial structured outputs, high-agreement cases are accepted with minimal intervention, and disagreements are routed to human review. Using this setup, we constructed a benchmark of 60 columns. Agreement on the benchmarked cases exceeds 85\%, and in the final review stage 991 fields were corrected out of 13{,}595 total fields (7.2\%). These numbers suggest that cross-model agreement can reduce the amount of human correction needed, although agreement does not guarantee correctness when errors are correlated.
+
+In the extraction experiments, we compared several approaches and input modalities. Overall, the results support using image-based inputs (image-only or image+text) when OCR noise is substantial, while qualitative inspection also indicates that both modalities have characteristic failure modes (e.g., decorative symbols, OCR artifacts, and anchoring effects). Simple preprocessing, such as removing advertisements and splitting pages into columns, consistently improves OCR quality and is therefore a useful low-cost step.
+
+We also conducted initial analysis on the extracted female doctors. However, due to time constraint, we only recognize the female doctors by "Mme" and "Mlle" in their name field, while their first name, if any, could also be used to infer the gender.
+
+There are important limitations. Aggregate metrics can hide field-specific behavior, the benchmark may contain residual errors, and the pilot years do not capture the full variation across later volumes. Future work could focus on field-level evaluation, lightweight validation rules, improved procedures to reduce correlated errors, and scaling the pipeline to additional years in the 1887--1940 collection.
+
+
+We have put all the code and extracted data on GitHub
+
+\begin{itemize}
+    \item Double Triangular Annotation Framework: \url{https://github.com/nmrenyi/double-triangle-annotation}
+    \item Extraction Pipeline: \url{https://github.com/nmrenyi/extraire-tesseract-openai}
+    \item Rosenwald Benchmark (created with Double Triangular Annotation Framework): \url{https://github.com/nmrenyi/rosenwald-benchmark} 
+    \item Rosenwald Guide Extraction Result (created with Extraction Pipeline): \url{https://github.com/nmrenyi/rosenwald-extraction}
+\end{itemize}
+
+	

@@ -1,7 +1,7 @@
 \chapter{Dataset}
 \section{Dataset: The Rosenwald Guides}
 \subsection{Historical Context and Significance}
-The \emph{Guides Rosenwald} are medical directories listing physicians in France and its colonies. Published annually between 1887 and 1940, the collection comprises 47 volumes. Originally conceived as a strategic reference work, the Guides aimed to provide a comprehensive overview of the medical profession across French territories to assist doctors and pharmacists in choosing their place of practice. Their stated mission was to regulate the spatial distribution of medical professionals so as to avoid overcrowding and ensure balanced access to care. As the preface to the 1887 edition states:
+The \emph{Guides Rosenwald} are medical directories listing physicians and pharmacists in France and its colonies. Published annually between 1887 and 1949, the collection comprises 47 volumes. Originally conceived as a strategic reference work, the Guides aimed to provide a comprehensive overview of the medical profession across French territories to assist doctors and pharmacists in choosing their place of practice. Their stated mission was to regulate the spatial distribution of medical professionals so as to avoid overcrowding and ensure balanced access to care. As the preface to the 1887 edition states:
 
 \begin{quote} ``Éviter un encombrement également préjudiciable aux nouveaux venus et aux médecins et pharmaciens déjà fixés.’’
 
@@ -33,7 +33,33 @@ Figure~\ref{fig:global} shows a double-page spread from the Rosenwald Guides. Ou
 
 \subsection{Corpus Construction and Statistics}
 \label{sec:corpus}
-In this paper, we focus on extracting doctor entries, with particular attention to female doctors, from 20 volumes published between 1887 and 1906. To narrow the scope of our analysis, we process only the sections titled \emph{Docteurs en médecine et en chirurgie} and \emph{Officiers de santé} for Paris and for the départements and colonies. We manually identified the relevant page ranges for each volume and extracted the corresponding pages as images.
+In this paper, we focus on extracting doctor entries, with particular attention to female doctors, for example, their name, year of diploma, specialization. Table~\ref{tab:medecins_b} shows an example extraction of Figure~\ref{fig:close}.
+
+\begin{table}[htbp]
+\centering
+\small
+\begin{tabular}{llp{3.2cm}p{2.3cm}p{3.5cm}l}
+\toprule
+\textbf{Nom} & \textbf{Année} & \textbf{Notes} & \textbf{Adresse} & \textbf{Horaires} & \textbf{Sexe} \\
+\midrule
+Bénard        & 1865 &  & Censier~28 & 1 à 2 &  \\
+Bénard (L.)   & 1871 &  & Plantes~10 & midi à 2 &  \\
+Bénard (P.)   & 1880 &  & Estrapade~15 &  &  \\
+Bénard (H.)   & 1882 &  & Temple~150 & Mar.~Jeu.~Sam.~midi à 2 &  \\
+Beni-Barde    & 1853 & M.~H., établissements hydrothérapiques & Boileau~12 (Auteuil), Miromesnil~63 &  &  \\
+Benoit        & 1876 &  & Douai~49 & 1 à 3 &  \\
+Benoit (Mlle) &  &  & Malleville~2 & Lun.~Mer.~Ven.~Sam.~2 à 4 & Mlle \\
+Benou         &  &  & Crimée~178 & 2 à 4 &  \\
+Béral         & 1851 &  & Dragon~21 & 2 à 4 &  \\
+Berger        & 1873 & AGR.~CH.~H. & Bac~4 & Lun.~Mer.~Ven.~1 à 3 &  \\
+\bottomrule
+\end{tabular}
+\caption{Doctor Entries of Figure~\ref{fig:close}}
+\label{tab:medecins_b}
+\end{table}
+
+
+To narrow the scope of our analysis, we process only the sections titled \emph{Docteurs en médecine et en chirurgie} and \emph{Officiers de santé} for Paris and for the départements and colonies,  published between 1887 and 1906 (20 volumes). We manually identified the relevant page ranges for each volume and extracted the corresponding pages as images.
 
 Table~\ref{tab:pages} presents the number of pages extracted for each edition, yielding a dataset of 4,116 pages in total. We can see that except for 1903 and 1904, each year has around 200 relevant pages.
 

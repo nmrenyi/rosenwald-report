@@ -6,7 +6,7 @@ As described in Section~\ref{sec:corpus}, we restrict our analysis to the sectio
 
 To construct a benchmark that remains representative of the full corpus, we apply stratified sampling with a target size of 100 pages. Specifically, for each year we allocate a number of sampled pages proportional to that year’s share of the total target pages, and then sample pages within each year accordingly. This procedure yields a final benchmark of 105 pages.
 
-To improve the annotation accuracy, we manually cropped the advertisements at the top and bottom of each page, and split the two columns into two images. Removing advertisements and splitting the columns could help the accuracy, as is discussed in Section~\ref{sec:image-preprocessing}.
+To improve the annotation accuracy, we manually cropped the advertisements at the top and bottom of each page, and split the two columns into two images. Removing advertisements and splitting the columns could help the annotation accuracy, as is discussed in Section~\ref{sec:image-preprocessing}.
 
 \section{Model Annotation}
 \subsection{Model Selection}
@@ -45,14 +45,15 @@ llama\_vs\_grok  & 34962 & 46550 & 75.1\% \\
 
 As is shown in Table~\ref{tab:field-matching-rate-model-pair}, both model pairs achieved more than 75\% matching rate over the fields. This shows that using MLLM as initial annotators could reduce over 75\% of human labour in data labelling. In addition, based on our previous assumption, high level of matching rate also indicates high accuracy, which proves the quality of our labelling.
 
-\subsection{Data Post Filtering}
+\subsection{Data Post-Filtering}
 
-As is shown in Figure~\ref{fig:four-distributions}, we visualised the distribution of field-level matching rate, character-level matching rate, number of different fields and number of total fields over the files in 210 columns. We can notice the long tail phenomenon in field-level matching rate, character-level matching rate and number of different fields. Annotators need particularly long time to solve the files in these long tails.
+Figure~\ref{fig:four-distributions} illustrates the distributions of field-level matching rate, character-level matching rate, number of distinct fields, and total number of fields across the 210-column dataset. We observe a long-tail phenomenon in the matching rates and the count of distinct fields; files located within these tails require significantly more time for human annotation.
 
-Limited by project time, for the 210 columns dataset, we only keep the files that meet the following criteria: with less than 70 different fields, with higher than 0.7 field matching rate and higher than 0.6 character matching rate.
+To balance dataset quality and annotation feasibility within project time constraints, we filtered the dataset to retain only files meeting the following criteria: fewer than 70 distinct fields, a field matching rate greater than 0.7, and a character matching rate greater than 0.6. 
 
-With this filtering, we could maximize the utility of the machine consensus and save human labour, although there is the risk to favour the shorter columns and favour the files where MLLM works better. Fortunately the extraction pipeline we are going to use does not use MLLM, so it's less risky.
+This filtering strategy maximizes the utility of machine consensus and reduces the necessary human labor. We acknowledge a potential risk of favoring shorter columns or instances where the MLLM performed well, since we are deviating from the original stratified sampling.
 
+% however, this bias is mitigated by the fact that our downstream extraction pipeline does not rely on MLLMs.
 
 \begin{figure}[htbp]
     \centering
@@ -93,6 +94,8 @@ With this filtering, we could maximize the utility of the machine consensus and 
 
 After filtering, we have the 58 columns to serve as the benchmark. The field matching statistics are shown in Figure~\ref{tab:field_iaa_by_pair_cleaned}.
 
+On the second layer of our framework, we have 991 fields to correct, out of 13595 fields in total, which is only 7.2\% human effort. We can still improve the efficiency of our framework by conducting more rule-based automatic review, for example resolve the conflict in address with only the difference like "Marseille" and "à Marseille".
+
 \begin{table}[htbp]
 \centering
 \caption{Aggregated field-level matching rate by model pair in filtered data}
@@ -112,6 +115,8 @@ llama\_vs\_grok & 11,048 & 12,905 & 85.6\% \\
 To facilitate the human correction of the data fields where machines don't reach consensus, we developed an annotation platform. With this platform, our annotator could focus on correcting the different results from machine annotations, as is shown in Figure~\ref{fig:platform}.
 
 We use red box to highlight the fields with different machine annotations, and we also highlight the exact different character in the field. In this way, we exploit the maximum utility of the machine consensus and improve the manual correction efficiency and accuracy.
+
+We have our researcher Ren Yi and Ella Bischoff from UNIL to conduct the human correction. We appreciate their work.
 
 \begin{figure}
     \centering
@@ -174,4 +179,4 @@ In summary, \textbf{split} is optimal for \textbf{3/4} selected models and is wi
 Particularly, the dramatic performance drop with the strategy concat, could result from the too long image after concatenation, Claude 4.5 Sonnet would be scaled down before converting to tokens \footnote{https://platform.claude.com/docs/en/build-with-claude/vision}, which could degrate the performance significantly. 
 
 \section{Conclusion}
-
+This chapter constructs a representative benchmark from the Rosenwald Guides via stratified sampling and creates annotations using a double-layer framework: two independent MLLM systems produce initial TSV outputs. After post-filtering to prioritize high-consensus and feasible cases, we obtain a 60-column benchmark in which model agreement exceeds 85\%. In the final review layer, we only need to manually correct 991 fields out of 13595, and this efficiency could be further improved. Finally, an ablation study shows that removing ads and splitting pages into columns consistently improves OCR quality, motivating the use of \textit{split} preprocessing across our selected models.
