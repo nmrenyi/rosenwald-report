@@ -2,6 +2,9 @@
 
 **Subtitle:** LLM-based Structured Data Extraction from the Rosenwald Guides: Methods and Hybrid Evaluation
 
+📄 **[Read the final report (PDF)](https://renyi.ch/reports/rosenwald.pdf)** — covers the whole project  
+📝 **[Annotation framework preprint (arXiv)](https://arxiv.org/abs/2605.25781)** — covers the Double Triangle annotation methodology only
+
 EPFL Semester Project — Ren Yi  
 Supervisors: Mikhaël Moreau, Dre Amélie Puche, Pr. Jérôme Baudry
 
